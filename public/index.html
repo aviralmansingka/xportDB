@@ -10,20 +10,41 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
- <!-- Riot -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.7/riot+compiler.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.7/riot.min.js"></script>
+  
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
+  <script>
+    function showContents() {
+      var ul = document.createElement("ul");
+      for(var i = 0; i < flds.length; i++) {
+        var name = flds[i].name;
+        
+        var li = document.createElement("li");
+        var text1 = document.createTextNode(name + '\t');
+        var text2 = document.createTextNode(flds[i].type);
+
+
+        li.appendChild(text1);
+        li.appendChild(text2);
+
+        ul.appendChild(li);
+
+      }
+      document.getElementById("contents").appendChild(ul);
+
+    }
+
+  </script>
  
 
   <script type="text/javascript">
 
     var flds = [];
-
+    var field = {name: "blah", type: "string"};
+    flds.push(field);
     function fields(fld_name, fld_type) {
         var field = {name: fld_name, type: fld_type};
         flds.push(field);
@@ -50,34 +71,23 @@
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-
-  <div class="row">
-  <schematbl></schematbl>
-  </div>
-
-  <script src="schematbl.tag" type="riot/tag"></script>
-  <script>
-  $(document).ready(function() {
-  riot.mount("schematbl", {
-      name: "Test",
-      fields: [
-        { title: "object1", type: "t1" },
-        { title: "object2",  type: "t2" }
-      ]
-      })
-    });
-    </script>
-
+  
   <div class="fixed-action-btn">
     <a class="btn-floating btn-large green">
       <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
-      <li><a class="btn-floating red"><i class="material-icons">library_add</i></a></li>
+      <li><a class="btn-floating red" onclick="showContents()"><i class="material-icons">library_add</i></a></li>
       <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
     </ul>
   </div>
+
+  <div id="contents">
+  </div>
  
+
+  
+
 
   </body>
 </html>
