@@ -19,16 +19,21 @@
   <script>
     function showContents() {
       var ul = document.createElement("ul");
+      ul.setAttribute("class", "collection with-header");
       for(var i = 0; i < flds.length; i++) {
         var name = flds[i].name;
         
         var li = document.createElement("li");
+        li.setAttribute("class", "collection-item")
         var text1 = document.createTextNode(name + '\t');
+        var sp = document.createElement("span");
+        sp.setAttribute("class", "badge");
         var text2 = document.createTextNode(flds[i].type);
 
 
         li.appendChild(text1);
-        li.appendChild(text2);
+        sp.appendChild(text2);
+        li.appendChild(sp);
 
         ul.appendChild(li);
 
@@ -82,7 +87,20 @@
     </ul>
   </div>
 
+  <div class="row">
+  <div class="col s3 blue">
+    <ul class="left">
+        <li><a class="waves-effect waves-light btn" href="#">String</a></li>
+        <br>
+        <li><a class="waves-effect waves-light btn" href="#">Int</a></li>
+        <br>
+        <li><a class="waves-effect waves-light btn" href="#">Many to One</a></li>
+    </ul>
+  </div>
+  <div class="col s9 teal">
   <div id="contents">
+  </div>
+  </div>
   </div>
  
 
