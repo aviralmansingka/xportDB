@@ -16,10 +16,45 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
+  <script type="text/javascript">
+
+    var flds = [];
+    var field = {name: "blah", type: "string"};
+    flds.push(field);
+    function fields(fld_name, fld_type) {
+        var field = {name: fld_name, type: fld_type};
+        flds.push(field);
+    }
+
+  </script>
+
+
   <script>
+
+    function addField(field) {
+        li = document.createElement("li");
+        li.setAttribute("class", "collection-item");
+        var sp = document.createElement("span");
+        sp.setAttribute("class", "badge");
+        var text1 = document.createTextNode("name" + '\t');
+
+        var text2 = document.createTextNode(field);
+        fields("name",field);
+
+        li.appendChild(text1);
+        sp.appendChild(text2);
+        li.appendChild(sp);
+        document.getElementById("list").appendChild(li);
+    }
+
     function showContents() {
+      document.getElementById("contents").innerHTML = "";
+
       var ul = document.createElement("ul");
+      ul.setAttribute("id", "list");
       ul.setAttribute("class", "collection with-header");
+
+      
       for(var i = 0; i < flds.length; i++) {
         var name = flds[i].name;
         
@@ -38,24 +73,14 @@
         ul.appendChild(li);
 
       }
+      
       document.getElementById("contents").appendChild(ul);
-
+      
     }
 
   </script>
  
 
-  <script type="text/javascript">
-
-    var flds = [];
-    var field = {name: "blah", type: "string"};
-    flds.push(field);
-    function fields(fld_name, fld_type) {
-        var field = {name: fld_name, type: fld_type};
-        flds.push(field);
-    }
-
-  </script>
 
 </head>
 
@@ -89,9 +114,9 @@
 
   <div class="row center">
     <br>
-    <a class="waves-effect waves-light btn" href="#">String</a>
-    <a class="waves-effect waves-light btn" href="#">Int</a>
-    <a class="waves-effect waves-light btn" href="#">Many to One</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addField('String')">String</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addField('Number')">Number</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addField('Many to One')">Many to One</a>
   </div>
   <div class="row container">
   <div id="contents">
