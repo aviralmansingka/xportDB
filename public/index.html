@@ -78,7 +78,7 @@
             li = document.createElement("li");
             li.setAttribute("class", "collection-item");
             var sp = document.createElement("span");
-            sp.setAttribute("class", "badge");
+            sp.setAttribute("class", "new badge");
             var text1 = document.createTextNode(data.fieldname);
             var text2 = document.createTextNode(field);
             fieldsAlt(data.fieldname, field, data.ref);
@@ -111,7 +111,7 @@
             li = document.createElement("li");
             li.setAttribute("class", "collection-item");
             var sp = document.createElement("span");
-            sp.setAttribute("class", "badge");
+            sp.setAttribute("class", "new badge");
             var text1 = document.createTextNode(data.fieldname);
             var text2 = document.createTextNode(field);
             fields(data.fieldname, field);
@@ -261,7 +261,7 @@ $.ajax(settings).done(function (response) {
     </a>
     <ul>
       <li><a class="btn-floating red" onclick="addTable()"><i class="material-icons">library_add</i></a></li>
-      <li><a class="btn-floating green" onclick="publish()"><i class="material-icons">publish</i></a></li>
+    <!--   <li><a class="btn-floating green" onclick="publish()"><i class="material-icons">publish</i></a></li> -->
     </ul>
   </div>
 
@@ -281,7 +281,7 @@ $.ajax(settings).done(function (response) {
 <!--   <div class="row container">
       <textarea id="tinycontent"></textarea>
   </div> -->
-  <div class="row-center">
+  <div class="row container">
       <div id = "output">
       </div>
   </div>
