@@ -10,16 +10,202 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
+  <!-- VEX -->
+<script src="js/vex.combined.min.js"></script>
+<script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
+<link rel="stylesheet" href="css/vex.css" />
+<link rel="stylesheet" href="css/vex-theme-wireframe.css" />
+  
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
-  <!-- Riot -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.7/riot+compiler.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.0.7/riot.min.js"></script>
+  <script type="text/javascript">
+
+    var schemas = [];    
+    var flds = [];
+    var counter = 0;
+
+   // var field = {name: "blah", type: "string"};
+   // flds.push(field);
+
+    function fieldsAlt(fld_name, fld_type, ref) {
+        if (fld_type == "One to One") {
+          reftype = "1t1";
+        } else {
+          reftype = "1tm";
+        };
+
+        var field = {name: fld_name, type: "Schema.types.ObjectId", ref: ref, reftype: reftype};
+        flds.push(field);
+       // addField(field.);
+       //console.log(counter--);
+        console.log("INSIDE FIELDS: ",schemas[counter-1]);
+        schemas[counter-1].fields.push(field);
+    }
+
+    function fields(fld_name, fld_type) {
+        console.log("Schemas: ", schemas);
+        console.log("FLDS: ", flds);
+        var field = {name: fld_name, type: fld_type};
+        flds.push(field);
+       // addField(field.);
+       //console.log(counter--);
+        console.log("INSIDE FIELDS: ",schemas[counter-1]);
+        schemas[counter-1].fields.push(field);
+    }
+
+    // schemas.push(flds);
+
+    function addFieldAlt(field) {
+        vex.dialog.open({
+          message: 'Enter a name and reference for your field',
+          input: [
+            '<input name="fieldname" type="text" placeholder="Field Name" required />',
+            '<input name="ref" type="text" placeholder="Reference Schema" required />'
+        ].join(''),
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
+
+            console.log('Field name: ', data.fieldname);
+            li = document.createElement("li");
+            li.setAttribute("class", "collection-item");
+            var sp = document.createElement("span");
+            sp.setAttribute("class", "badge");
+            var text1 = document.createTextNode(data.fieldname);
+            var text2 = document.createTextNode(field);
+            fieldsAlt(data.fieldname, field, data.ref);
+
+            li.appendChild(text1);
+            sp.appendChild(text2);
+            li.appendChild(sp);
+            document.getElementById("list" + counter.toString()).appendChild(li);
+            
+          }
+      }
+    })
+    }
+
+    function addField(field) {
+
+        vex.dialog.open({
+          message: 'Enter a name for your field',
+          input: '<input name="fieldname" type="text" placeholder="Field Name" required />',
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
+
+            console.log('Field name: ', data.fieldname);
+            li = document.createElement("li");
+            li.setAttribute("class", "collection-item");
+            var sp = document.createElement("span");
+            sp.setAttribute("class", "badge");
+            var text1 = document.createTextNode(data.fieldname);
+            var text2 = document.createTextNode(field);
+            fields(data.fieldname, field);
+
+            li.appendChild(text1);
+            sp.appendChild(text2);
+            li.appendChild(sp);
+            document.getElementById("list" + counter.toString()).appendChild(li);
+            
+          }
+      }
+    })
+
+        // li = document.createElement("li");
+        // li.setAttribute("class", "collection-item");
+        // var sp = document.createElement("span");
+        // sp.setAttribute("class", "badge");
+        // var text1 = document.createTextNode("name" + '\t');
+
+        // var text2 = document.createTextNode(field);
+        // fields("name",field);
+
+        // li.appendChild(text1);
+        // sp.appendChild(text2);
+        // li.appendChild(sp);
+        // document.getElementById("list").appendChild(li);
+    }
+
+    function addTable() {
+
+        var schema_fields = [];
+
+        vex.dialog.open({
+          message: 'Enter a name for your model',
+          input: '<input name="classname" type="text" placeholder="Model Name" required />',
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
+            console.log('Class name: ', data.classname)
+            var schema = {title: data.classname, fields:schema_fields};
+            schemas.push(schema);
+            showContents(data.classname);
+          }
+      }
+})
+
+        // var schema_fields = [];
+        // var schema = {title: "data.classname", fields:schema_fields};
+        // schemas.push(schema);
+
+        // showContents(title);
+
+    }
+    function publish() {
+      console.log(schemas);
+    }
+
+
+
+    function showContents(title) {
+      console.log("In fucntion: ", title);
+     // document.getElementById("contents").innerHTML = "";
+
+      var ul = document.createElement("ul");
+      counter++;
+      ul.setAttribute("id", "list" + counter.toString());
+     
+
+      ul.setAttribute("class", "collection with-header");
+
+        var li = document.createElement("li");
+        li.setAttribute("class", "collection-header");
+        var h4 = document.createElement("h4");
+        var text1 = document.createTextNode(title + '\t');
+        h4.appendChild(text1);
+        li.appendChild(h4);
+        ul.appendChild(li);
+
+      
+      document.getElementById("contents").appendChild(ul);
+      
+    }
+
+  </script>
+ 
+
 
 </head>
+
 <body>
   <nav class="black white-text" role="navigation">
     <div class="nav-wrapper container">
@@ -27,28 +213,40 @@
       <ul class="right hide-on-med-and-down">
         <li><a class="waves-effect waves-light btn" href="#">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
-
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a class="waves-effect waves-light btn" href="#">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
-
       </ul>
+
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-
+  
   <div class="fixed-action-btn">
     <a class="btn-floating btn-large green">
       <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
-      <li><a class="btn-floating red"><i class="material-icons">library_add</i></a></li>
-      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating red" onclick="addTable()"><i class="material-icons">library_add</i></a></li>
+      <li><a class="btn-floating green" onclick="publish()"><i class="material-icons">publish</i></a></li>
     </ul>
   </div>
- 
 
+  <div class="row center">
+    <br>
+    <a class="waves-effect waves-light btn" href="#" onclick="addField('String')">String</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addField('Number')">Number</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addFieldAlt('One to Many')">One to Many</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addFieldAlt('One to One')">One to One</a>
+
+  </div>
+  <div class="row container">
+  <div id="contents">
+  </div>
+  </div>
+
+  
   </body>
 </html>
