@@ -29,12 +29,69 @@
 
    // var field = {name: "blah", type: "string"};
    // flds.push(field);
-    function fields(fld_name, fld_type) {
-        var field = {name: fld_name, type: fld_type};
+
+    function fieldsAlt(fld_name, fld_type, ref) {
+        if (fld_type == "One to One") {
+          reftype = "1t1";
+        } else {
+          reftype = "1tm";
+        };
+
+        var field = {name: fld_name, type: "Schema.types.ObjectId", ref: ref, reftype: reftype};
         flds.push(field);
+       // addField(field.);
+       //console.log(counter--);
+        console.log("INSIDE FIELDS: ",schemas[counter-1]);
+        schemas[counter-1].fields.push(field);
     }
 
-    schemas.push(flds);
+    function fields(fld_name, fld_type) {
+        console.log("Schemas: ", schemas);
+        console.log("FLDS: ", flds);
+        var field = {name: fld_name, type: fld_type};
+        flds.push(field);
+       // addField(field.);
+       //console.log(counter--);
+        console.log("INSIDE FIELDS: ",schemas[counter-1]);
+        schemas[counter-1].fields.push(field);
+    }
+
+    // schemas.push(flds);
+
+    function addFieldAlt(field) {
+        vex.dialog.open({
+          message: 'Enter a name and reference for your field',
+          input: [
+            '<input name="fieldname" type="text" placeholder="Field Name" required />',
+            '<input name="ref" type="text" placeholder="Reference Schema" required />'
+        ].join(''),
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
+
+            console.log('Field name: ', data.fieldname);
+            li = document.createElement("li");
+            li.setAttribute("class", "collection-item");
+            var sp = document.createElement("span");
+            sp.setAttribute("class", "badge");
+            var text1 = document.createTextNode(data.fieldname);
+            var text2 = document.createTextNode(field);
+            fieldsAlt(data.fieldname, field, data.ref);
+
+            li.appendChild(text1);
+            sp.appendChild(text2);
+            li.appendChild(sp);
+            document.getElementById("list" + counter.toString()).appendChild(li);
+            
+          }
+      }
+    })
+    }
 
     function addField(field) {
 
@@ -57,7 +114,7 @@
             sp.setAttribute("class", "badge");
             var text1 = document.createTextNode(data.fieldname);
             var text2 = document.createTextNode(field);
-            fields("name",field);
+            fields(data.fieldname, field);
 
             li.appendChild(text1);
             sp.appendChild(text2);
@@ -99,7 +156,7 @@
             console.log('Cancelled')
          } else {
             console.log('Class name: ', data.classname)
-            var schema = {title: "data.classname", fields:schema_fields};
+            var schema = {title: data.classname, fields:schema_fields};
             schemas.push(schema);
             showContents(data.classname);
           }
@@ -181,7 +238,9 @@
     <br>
     <a class="waves-effect waves-light btn" href="#" onclick="addField('String')">String</a>
     <a class="waves-effect waves-light btn" href="#" onclick="addField('Number')">Number</a>
-    <a class="waves-effect waves-light btn" href="#" onclick="addField('Many to One')">Many to One</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addFieldAlt('Many to One')">Many to One</a>
+    <a class="waves-effect waves-light btn" href="#" onclick="addFieldAlt('One to One')">One to One</a>
+
   </div>
   <div class="row container">
   <div id="contents">
