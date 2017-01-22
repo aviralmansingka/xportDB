@@ -25,9 +25,10 @@
 
     var schemas = [];    
     var flds = [];
+    var counter = 0;
 
-    var field = {name: "blah", type: "string"};
-    flds.push(field);
+   // var field = {name: "blah", type: "string"};
+   // flds.push(field);
     function fields(fld_name, fld_type) {
         var field = {name: fld_name, type: fld_type};
         flds.push(field);
@@ -61,7 +62,7 @@
             li.appendChild(text1);
             sp.appendChild(text2);
             li.appendChild(sp);
-            document.getElementById("list").appendChild(li);
+            document.getElementById("list" + counter.toString()).appendChild(li);
             
           }
       }
@@ -112,13 +113,21 @@
         // showContents(title);
 
     }
+    function publish() {
+      console.log(schemas);
+    }
+
+
 
     function showContents(title) {
       console.log("In fucntion: ", title);
-      document.getElementById("contents").innerHTML = "";
+     // document.getElementById("contents").innerHTML = "";
 
       var ul = document.createElement("ul");
-      ul.setAttribute("id", "list");
+      counter++;
+      ul.setAttribute("id", "list" + counter.toString());
+     
+
       ul.setAttribute("class", "collection with-header");
 
         var li = document.createElement("li");
@@ -164,7 +173,7 @@
     </a>
     <ul>
       <li><a class="btn-floating red" onclick="addTable()"><i class="material-icons">library_add</i></a></li>
-      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
+      <li><a class="btn-floating green" onclick="publish()"><i class="material-icons">publish</i></a></li>
     </ul>
   </div>
 
