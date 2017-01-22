@@ -226,8 +226,11 @@
 $.ajax(settings).done(function (response) {
   console.log(response);
   // document.getElementById("tinycontent").appendChild(response);
+    var outcard = document.createElement("div")
+    outcard.setAttribute("class", "card-panel teal white-text");
     var out = document.createTextNode(response);
-    document.getElementById("output").appendChild(out);
+    outcard.appendChild(out);
+    document.getElementById("output").appendChild(outcard);
   
 
 });
@@ -257,7 +260,7 @@ $.ajax(settings).done(function (response) {
   </nav>
   
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large green">
+    <a class="btn-floating btn-large teal">
       <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
