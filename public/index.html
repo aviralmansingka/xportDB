@@ -20,8 +20,6 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
 
   <script type="text/javascript">
 
@@ -227,22 +225,16 @@
 
 $.ajax(settings).done(function (response) {
   console.log(response);
-});
+  // document.getElementById("tinycontent").appendChild(response);
 
-vex.dialog.open({
+vex.dialog.prompt({
     message: 'Enter a name for your model',
-    input: '<textarea name="code-final" type="text">response</textarea>',
-    buttons: $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
-      callback: function (data) {
-        if (!data) {
-            console.log('Cancelled')
-        } else {
-          console.log('Class name: ', data.classname)
-          var schema = {title: data.classname, fields:schema_fields};
-          schemas.push(schema);
-          showContents(data.classname);
-          }
-      }
+    placeholder: response,
+    // buttons: $.extend({}, vex.dialog.buttons.YES, { text: 'Done' })
+    callback: function (value) {
+        console.log(value)
+    }
+});
 });
 
 }
@@ -259,12 +251,10 @@ vex.dialog.open({
       <a id="logo-container" href="#" class="brand-logo"><img src="media/xportDB.png" width="40%"></a>
       <ul class="right hide-on-med-and-down">
         <li><a class="waves-effect waves-light btn" onclick="sendPOST()">Generate</a></li>
-        <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a class="waves-effect waves-light btn" onclick="sendPOST()">Generate</a></li>
-        <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -293,6 +283,10 @@ vex.dialog.open({
   <div id="contents">
   </div>
   </div>
+
+<!--   <div class="row container">
+      <textarea id="tinycontent"></textarea>
+  </div> -->
 
   
   </body>
