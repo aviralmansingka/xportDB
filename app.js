@@ -34,7 +34,7 @@ app.post('/schema', function(req, res) {
 
         for(var j = 0; j < fields.length; j++) {
 
-            var title = fields[j].title;
+            var title = fields[j].name;
             var type = fields[j].type;
 
             if (type === "Schema.types.ObjectId")
