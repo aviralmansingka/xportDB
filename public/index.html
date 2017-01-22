@@ -18,7 +18,9 @@
 
   <script type="text/javascript">
 
+    var schemas = [];    
     var flds = [];
+
     var field = {name: "blah", type: "string"};
     flds.push(field);
     function fields(fld_name, fld_type) {
@@ -26,10 +28,7 @@
         flds.push(field);
     }
 
-  </script>
-
-
-  <script>
+    schemas.push(flds);
 
     function addField(field) {
         li = document.createElement("li");
@@ -47,7 +46,16 @@
         document.getElementById("list").appendChild(li);
     }
 
-    function showContents() {
+    function addTable(title) {
+        var schema_fields = [];
+        var schema = {title: "User", fields:schema_fields};
+        schemas.push(schema);
+
+        showContents(title);
+
+    }
+
+    function showContents(title) {
       document.getElementById("contents").innerHTML = "";
 
       var ul = document.createElement("ul");
@@ -55,24 +63,13 @@
       ul.setAttribute("class", "collection with-header");
 
       
-      for(var i = 0; i < flds.length; i++) {
-        var name = flds[i].name;
-        
+      
         var li = document.createElement("li");
         li.setAttribute("class", "collection-item")
-        var text1 = document.createTextNode(name + '\t');
-        var sp = document.createElement("span");
-        sp.setAttribute("class", "badge");
-        var text2 = document.createTextNode(flds[i].type);
-
-
+        var text1 = document.createTextNode(title + '\t');
         li.appendChild(text1);
-        sp.appendChild(text2);
-        li.appendChild(sp);
-
         ul.appendChild(li);
 
-      }
       
       document.getElementById("contents").appendChild(ul);
       
@@ -107,7 +104,7 @@
       <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
-      <li><a class="btn-floating red" onclick="showContents()"><i class="material-icons">library_add</i></a></li>
+      <li><a class="btn-floating red" onclick="addTable('User')"><i class="material-icons">library_add</i></a></li>
       <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
     </ul>
   </div>
