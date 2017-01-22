@@ -20,6 +20,8 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script>tinymce.init({ selector:'textarea' });</script>
 
   <script type="text/javascript">
 
@@ -161,7 +163,7 @@
             showContents(data.classname);
           }
       }
-})
+});
 
         // var schema_fields = [];
         // var schema = {title: "data.classname", fields:schema_fields};
@@ -200,15 +202,50 @@
       
     }
 
-    $(document).ready(function(){
-      $("generate").click(function(){
-        $.post("localhost/schema",
-        schemas,
-        function(data,status){
-            alert("Data: " + data + "\nStatus: " + status);
-        });
-      });
-    });
+    function sendPOST() {
+      // var xhr = new XMLHttpRequest();
+      // xhr.withCredentials = true;
+      // console.log(this.responseText);
+      // xhr.open("POST", "http://localhost:3000/schema");
+      // xhr.setRequestHeader("content-type", "application/json");
+      // xhr.setRequestHeader("cache-control", "no-cache");
+      // console.log("Print Schemas: ", JSON.stringify(schemas));
+      // xhr.send(JSON.stringify(schemas)); 
+      // console.log(JSON.parse(xhr.responseText));
+
+      var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "http://localhost:3000/schema",
+        "method": "POST",
+        "headers": {
+        "content-type": "application/json",
+      },
+
+      "data": JSON.stringify(schemas)
+}
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+
+vex.dialog.open({
+    message: 'Enter a name for your model',
+    input: '<textarea name="code-final" type="text">response</textarea>',
+    buttons: $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+      callback: function (data) {
+        if (!data) {
+            console.log('Cancelled')
+        } else {
+          console.log('Class name: ', data.classname)
+          var schema = {title: data.classname, fields:schema_fields};
+          schemas.push(schema);
+          showContents(data.classname);
+          }
+      }
+});
+
+}
 
   </script>
  
@@ -221,12 +258,12 @@
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo"><img src="media/xportDB.png" width="40%"></a>
       <ul class="right hide-on-med-and-down">
-        <li><a class="waves-effect waves-light btn" href="#" id="generate">Generate</a></li>
+        <li><a class="waves-effect waves-light btn" onclick="sendPOST()">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a class="waves-effect waves-light btn" href="#" id="generate">Generate</a></li>
+        <li><a class="waves-effect waves-light btn" onclick="sendPOST()">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
