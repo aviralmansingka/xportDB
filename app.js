@@ -21,7 +21,7 @@ function buildMongooseScript(classname, fieldContents)
 
 app.post('/schema', function(req, res) {
 
-    var classes = req.body;
+    var classes = req.body.classes;
     var names = [];
     var responseToSend = [];
     for(var i = 0; i < classes.length; i++)
