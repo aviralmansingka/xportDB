@@ -226,15 +226,9 @@
 $.ajax(settings).done(function (response) {
   console.log(response);
   // document.getElementById("tinycontent").appendChild(response);
+  var out = document.createTextNode(response);
+  document.getElementById("output").appendChild(out);
 
-vex.dialog.prompt({
-    message: 'Enter a name for your model',
-    placeholder: response,
-    // buttons: $.extend({}, vex.dialog.buttons.YES, { text: 'Done' })
-    callback: function (value) {
-        console.log(value)
-    }
-});
 });
 
 }
@@ -287,7 +281,10 @@ vex.dialog.prompt({
 <!--   <div class="row container">
       <textarea id="tinycontent"></textarea>
   </div> -->
-
+  <div class="row-center">
+      <div id = "output">
+      </div>
+  </div>
   
   </body>
 </html>
