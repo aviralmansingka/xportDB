@@ -200,6 +200,16 @@
       
     }
 
+    $(document).ready(function(){
+      $("generate").click(function(){
+        $.post("localhost/schema",
+        schemas,
+        function(data,status){
+            alert("Data: " + data + "\nStatus: " + status);
+        });
+      });
+    });
+
   </script>
  
 
@@ -211,12 +221,12 @@
     <div class="nav-wrapper container">
       <a id="logo-container" href="#" class="brand-logo"><img src="media/xportDB.png" width="40%"></a>
       <ul class="right hide-on-med-and-down">
-        <li><a class="waves-effect waves-light btn" href="#">Generate</a></li>
+        <li><a class="waves-effect waves-light btn" href="#" id="generate">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
-        <li><a class="waves-effect waves-light btn" href="#">Generate</a></li>
+        <li><a class="waves-effect waves-light btn" href="#" id="generate">Generate</a></li>
         <li><a class="waves-effect waves-light btn" href="#">Logout</a></li>
       </ul>
 
