@@ -10,6 +10,11 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 
+  <!-- VEX -->
+<script src="js/vex.combined.min.js"></script>
+<script>vex.defaultOptions.className = 'vex-theme-wireframe'</script>
+<link rel="stylesheet" href="css/vex.css" />
+<link rel="stylesheet" href="css/vex-theme-wireframe.css" />
   
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -31,43 +36,97 @@
     schemas.push(flds);
 
     function addField(field) {
-        li = document.createElement("li");
-        li.setAttribute("class", "collection-item");
-        var sp = document.createElement("span");
-        sp.setAttribute("class", "badge");
-        var text1 = document.createTextNode("name" + '\t');
 
-        var text2 = document.createTextNode(field);
-        fields("name",field);
+        vex.dialog.open({
+          message: 'Enter a name for your field',
+          input: '<input name="fieldname" type="text" placeholder="Field Name" required />',
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
 
-        li.appendChild(text1);
-        sp.appendChild(text2);
-        li.appendChild(sp);
-        document.getElementById("list").appendChild(li);
+            console.log('Field name: ', data.fieldname);
+            li = document.createElement("li");
+            li.setAttribute("class", "collection-item");
+            var sp = document.createElement("span");
+            sp.setAttribute("class", "badge");
+            var text1 = document.createTextNode(data.fieldname);
+            var text2 = document.createTextNode(field);
+            fields("name",field);
+
+            li.appendChild(text1);
+            sp.appendChild(text2);
+            li.appendChild(sp);
+            document.getElementById("list").appendChild(li);
+            
+          }
+      }
+    })
+
+        // li = document.createElement("li");
+        // li.setAttribute("class", "collection-item");
+        // var sp = document.createElement("span");
+        // sp.setAttribute("class", "badge");
+        // var text1 = document.createTextNode("name" + '\t');
+
+        // var text2 = document.createTextNode(field);
+        // fields("name",field);
+
+        // li.appendChild(text1);
+        // sp.appendChild(text2);
+        // li.appendChild(sp);
+        // document.getElementById("list").appendChild(li);
     }
 
-    function addTable(title) {
-        var schema_fields = [];
-        var schema = {title: "User", fields:schema_fields};
-        schemas.push(schema);
+    function addTable() {
 
-        showContents(title);
+        var schema_fields = [];
+
+        vex.dialog.open({
+          message: 'Enter a name for your model',
+          input: '<input name="classname" type="text" placeholder="Model Name" required />',
+        buttons: [
+          $.extend({}, vex.dialog.buttons.YES, { text: 'Done' }),
+          $.extend({}, vex.dialog.buttons.NO, { text: 'Back' })
+        ],
+        callback: function (data) {
+          if (!data) {
+            console.log('Cancelled')
+         } else {
+            console.log('Class name: ', data.classname)
+            var schema = {title: "data.classname", fields:schema_fields};
+            schemas.push(schema);
+            showContents(data.classname);
+          }
+      }
+})
+
+        // var schema_fields = [];
+        // var schema = {title: "data.classname", fields:schema_fields};
+        // schemas.push(schema);
+
+        // showContents(title);
 
     }
 
     function showContents(title) {
+      console.log("In fucntion: ", title);
       document.getElementById("contents").innerHTML = "";
 
       var ul = document.createElement("ul");
       ul.setAttribute("id", "list");
       ul.setAttribute("class", "collection with-header");
 
-      
-      
         var li = document.createElement("li");
-        li.setAttribute("class", "collection-item")
+        li.setAttribute("class", "collection-header");
+        var h4 = document.createElement("h4");
         var text1 = document.createTextNode(title + '\t');
-        li.appendChild(text1);
+        h4.appendChild(text1);
+        li.appendChild(h4);
         ul.appendChild(li);
 
       
@@ -104,7 +163,7 @@
       <i class="large material-icons">mode_edit</i>
     </a>
     <ul>
-      <li><a class="btn-floating red" onclick="addTable('User')"><i class="material-icons">library_add</i></a></li>
+      <li><a class="btn-floating red" onclick="addTable()"><i class="material-icons">library_add</i></a></li>
       <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
     </ul>
   </div>
